@@ -5,12 +5,12 @@ const { koaBody } = require('koa-body');
 const logger = require('koa-logger');
 const views = require('koa-views');
 const router = require('./routers');
+const { generateToken, parseToken } = require('./utils/token_utils');
+const { JWT_SECRET } = require('./constant')
 
 const app = new Koa();
 
-const Secret = 'shared-secret';
 const port = '7001';
-
 
 // 异常捕获处理
 app.use((ctx, next) => {
@@ -20,6 +20,8 @@ app.use((ctx, next) => {
       ctx.cookies.set('token', token, { httpOnly: true, overwrite: true, maxAge:  12 * 3600 * 1000 });
     }
   }).catch(err => {
+    const token = generateToken('zhuqianyang');
+    ctx.cookies.set('token', token, { httpOnly: true, overwrite: true, maxAge:  12 * 3600 * 1000 });
     // 验证
     if(err.status === 401) {
       ctx.status = 401;
@@ -31,7 +33,13 @@ app.use((ctx, next) => {
 })
 
 // jwt鉴权
-// app.use(jwt({ secret: Secret }).unless({ path: [/^\/public/] }));
+app.use(jwt({ 
+  secret: JWT_SECRET,
+  cookie: 'token',
+  getToken: (ctx) => ctx.request.query.token,
+}).unless({ 
+  path: [/^\/public/]
+}));
 
 // 控制台日志
 app.use(logger());
