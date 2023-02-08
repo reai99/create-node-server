@@ -4,13 +4,12 @@ const jwt = require('koa-jwt');
 const { koaBody } = require('koa-body');
 const logger = require('koa-logger');
 const views = require('koa-views');
+const middles = require('./middleware');
 const router = require('./routers');
 const { generateToken, parseToken } = require('./utils/token_utils');
-const { JWT_SECRET } = require('./constant')
+const { JWT_SECRET, PORT } = require('./constant')
 
 const app = new Koa();
-
-const port = '7001';
 
 // 异常捕获处理
 app.use((ctx, next) => {
@@ -41,9 +40,13 @@ app.use(jwt({
   path: [/^\/public/]
 }));
 
+app.use(middles.static(['/**/*', '/js/*', '/css/*'],{
+  dir: __dirname + '/public',
+  maxage: 60 * 60 * 1000
+}))
+
 // 控制台日志
 app.use(logger());
-
 // 模板
 app.use(views(path.join(__dirname, './template'), { map: {html: 'swig'}}));
 // 文件上传需要
@@ -52,8 +55,8 @@ app.use(koaBody({multipart: true}));
 app.use(router.routes());
 
 
-app.listen(port);
-console.log('Server listen in:' + port);
+app.listen(PORT);
+console.log('Server listen in:' + PORT);
 
 
 

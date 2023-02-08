@@ -1,0 +1,57 @@
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+.homepage-wrapper {
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden auto;
+  background-color: #bbb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auto-code {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-size: 2em;
+  animation: typing 2s steps(20), blink 0.5s step-end infinite alternate;
+}
+
+.auto-code span {
+  display: inline-block;
+  animation: jump 0.4s ease-in-out;
+  animation-delay: var(--delay);
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 180px;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes jump {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
