@@ -19,8 +19,6 @@ app.use((ctx, next) => {
       ctx.cookies.set('token', token, { httpOnly: true, overwrite: true, maxAge:  12 * 3600 * 1000 });
     }
   }).catch(err => {
-    const token = generateToken('zhuqianyang');
-    ctx.cookies.set('token', token, { httpOnly: true, overwrite: true, maxAge:  12 * 3600 * 1000 });
     // 验证
     if(err.status === 401) {
       ctx.status = 401;
@@ -37,11 +35,11 @@ app.use(jwt({
   cookie: 'token',
   getToken: (ctx) => ctx.request.query.token,
 }).unless({ 
-  path: [/^\/public/]
+  path: [/^\/static/, /\/api\/login/]
 }));
 
-app.use(middles.static(['/**/*', '/js/*', '/css/*'],{
-  dir: __dirname + '/public',
+app.use(middles.static(['/static/js/*', '/static/css/*'],{
+  dir: __dirname + '/public/',
   maxage: 60 * 60 * 1000
 }))
 
@@ -57,6 +55,4 @@ app.use(router.routes());
 
 app.listen(PORT);
 console.log('Server listen in:' + PORT);
-
-
 
