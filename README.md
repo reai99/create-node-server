@@ -17,7 +17,7 @@ yarn dev
 
 （3）普通接口转发：apiConfig文件下的requestType配置接口，通过调用接口进行localhost:7001/api/process?_m_=配置名称 进行访问
 
-（4）静态文件下载：文件存放在piblic/templates下，通过接口进行访问 localhost:7001/api/common/template/download?ident=文件名 进行访问
+（4）静态文件下载：文件存放在public/templates下，通过接口进行访问 localhost:7001/api/common/template/download?ident=文件名 进行访问
 
 （5）文件导入：requestType配置接口,访问接口localhost:7001/api/common/import?_m_=配置名称 通过forData进行传参数（file）
 
