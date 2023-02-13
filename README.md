@@ -16,3 +16,5 @@ yarn dev
 （6）文件导出：requestType配置接口,访问接口localhost:7001/api/common/download?_m_=配置名称 进行文件导出
 （7）自定义接口：在controller创建控制器文件并写入自己想要的方法，进入routers文件进行路由配置，例如：router.all(url, Controler['xxx'].xxx);
  
+其他丰富功能待补充
+ 
