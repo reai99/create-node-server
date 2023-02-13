@@ -8,6 +8,7 @@ yarn dev
 
 
 3、项目效果测试
+
 （1）jwt验证：请求接口localhost:7001/api/login?name=xxxx 进行登陆， localhost:7001/api/logout
 
 （2）静态资源文件： 静态资源文件存放在public/static下，通过localhost:7001/static/xxx访问
