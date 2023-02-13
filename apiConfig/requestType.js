@@ -1,14 +1,20 @@
+const { MUSIC_REQUEST_URL } = require('../constant');
+
 module.exports = {
-  NOMARL_API: {
-    method: 'POST',
-    uri: 'http://www.baidu.com/api/nomal'
+  SEARCH_MUSIC: {
+    method: 'GET',
+    uri: `${MUSIC_REQUEST_URL}/search`,
   },
-  IMPORT_API: {
-    method: 'POST',
-    uri: 'http://www.baidu.com/upload'
+  SEARCH_HIGHQUALITY_MUSIC: {
+    method: 'GET',
+    uri: `${MUSIC_REQUEST_URL}/top/playlist/highquality`
   },
-  EXPOERT_API: {
-    method: 'POST',
-    uri: 'http://www.baidu.com/export'
-  }
+  SEARCH_RELATED_MUSIC: {
+    method: 'GET',
+    uri: `${MUSIC_REQUEST_URL}/related/playlist/related/playlist`,
+  },
+  SEARCH_HOT_MUSIC_TYPE: {
+    method: 'GET',
+    uri: `${MUSIC_REQUEST_URL}/playlist/hot`,
+  },
 }

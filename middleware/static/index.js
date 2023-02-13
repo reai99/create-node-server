@@ -18,7 +18,6 @@ const matchFilePath = (match, path) => {
       break;
     case 'object':
       for(let i = 0, length = match.length; i < length; i++) {
-        console.log(path, match[i], minimatch(path, match[i]))
         if(minimatch(path, match[i])){
           CACHE_STATIC_PATH[path] = 1;
           return path;

@@ -15,8 +15,8 @@ const app = new Koa();
 app.use((ctx, next) => {
   return next().then(() => {
     const token = ctx.cookies.get('token');
-    if (token) {
-      ctx.cookies.set('token', token, { httpOnly: true, overwrite: true, maxAge:  12 * 3600 * 1000 });
+    if (token && !['/api/logout', '/api/login'].includes(ctx.url.split('?')[0])) {
+      ctx.cookies.set('token', token, { httpOnly: true, maxAge:  12 * 3600 * 1000 });
     }
   }).catch(err => {
     // 验证
@@ -35,7 +35,7 @@ app.use(jwt({
   cookie: 'token',
   getToken: (ctx) => ctx.request.query.token,
 }).unless({ 
-  path: [/^\/static/, /\/api\/login/]
+  path: [/^\/static/, /\/api\/login/, /\/api\/logout/]
 }));
 
 app.use(middles.static(['/static/js/*', '/static/css/*'],{
