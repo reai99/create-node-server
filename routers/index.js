@@ -10,6 +10,8 @@ router.all('/api/common/download', Controler['common'].downloadProcess);
 router.get('/api/login', Controler['validate'].login);
 router.get('/api/logout', Controler['validate'].logout);
 
+router.all('/api/common/stream', Controler['common'].streamProcess)
+
 router.all('/api/process', async function(ctx) {
   await apiDecorator(ctx)
 })
@@ -26,5 +28,7 @@ router.get('/(.*)', async function (ctx) {
     env: process.env.CONFIG_ENV
   });
 });
+
+
 
 module.exports = router;

@@ -1,9 +1,29 @@
 const fs = require("fs");
 const path = require("path");
 const superagent = require("superagent");
+const { PassThrough } = require('stream');
 
 const requestType = require('../apiConfig');
 const { generateToken, parseToken } = require('../utils/token_utils');
+
+const sendMessage = async (stream) => {
+  const data = [
+    '  ',
+    'Hello',
+    ' ',
+    'Reai',
+    ' ',
+    '！',
+  ].map(c => c.split("")).flat(10);
+
+  for (const value of data) {
+    stream.write(`${value}`); // 写入数据(推送数据)
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
+  // 结束流
+  stream.end();
+};
 
 module.exports = {
   // 模板下载
@@ -128,4 +148,20 @@ module.exports = {
     ctx.body = JSON.parse(ret);
     
   },
+  streamProcess(ctx) {
+    ctx.set({
+      'Connection': 'keep-alive',
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'text/event-stream; charset=utf-8',
+    });
+
+    const stream = new PassThrough();
+
+    ctx.body = stream;
+    ctx.status = 200;
+
+    sendMessage(stream)
+
+  },
+
 };
