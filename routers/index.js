@@ -14,7 +14,12 @@ router.all('/api/common/stream', Controler['common'].streamProcess)
 
 router.all('/api/process', async function(ctx) {
   await apiDecorator(ctx)
-})
+});
+
+router.post('/api/common/scheduler/select_task', Controler['scheduler'].selectTask)
+router.post('/api/common/scheduler/add_task', Controler['scheduler'].addTask);
+router.get('/api/common/scheduler/del_task', Controler['scheduler'].delTask);
+router.post('/api/common/scheduler/upd_task', Controler['scheduler'].updTask);
 
 // 接口访问
 router.all('/api/(.*)', async function (ctx) {

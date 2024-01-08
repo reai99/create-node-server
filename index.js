@@ -11,32 +11,32 @@ const { JWT_SECRET, PORT } = require('./constant')
 
 const app = new Koa();
 
-// 异常捕获处理
-app.use((ctx, next) => {
-  return next().then(() => {
-    const token = ctx.cookies.get('token');
-    if (token && !['/api/logout', '/api/login'].includes(ctx.url.split('?')[0])) {
-      ctx.cookies.set('token', token, { httpOnly: true, maxAge:  12 * 3600 * 1000 });
-    }
-  }).catch(err => {
-    // 验证
-    if(err.status === 401) {
-      ctx.status = 401;
-      ctx.body = '没有权限，请登'
-    } else {
-      throw err;
-    }
-  })
-})
+// // 异常捕获处理
+// app.use((ctx, next) => {
+//   return next().then(() => {
+//     const token = ctx.cookies.get('token');
+//     if (token && !['/api/logout', '/api/login'].includes(ctx.url.split('?')[0])) {
+//       ctx.cookies.set('token', token, { httpOnly: true, maxAge:  12 * 3600 * 1000 });
+//     }
+//   }).catch(err => {
+//     // 验证
+//     if(err.status === 401) {
+//       ctx.status = 401;
+//       ctx.body = '没有权限，请登'
+//     } else {
+//       throw err;
+//     }
+//   })
+// })
 
-// jwt鉴权
-app.use(jwt({ 
-  secret: JWT_SECRET,
-  cookie: 'token',
-  getToken: (ctx) => ctx.request.query.token,
-}).unless({ 
-  path: [/^\/static/, /\/api\/login/, /\/api\/logout/]
-}));
+// // jwt鉴权
+// app.use(jwt({ 
+//   secret: JWT_SECRET,
+//   cookie: 'token',
+//   getToken: (ctx) => ctx.request.query.token,
+// }).unless({ 
+//   path: [/^\/static/, /\/api\/login/, /\/api\/logout/]
+// }));
 
 app.use(middles.static(['/static/js/*', '/static/css/*'],{
   dir: __dirname + '/public/',

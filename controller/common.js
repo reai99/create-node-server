@@ -6,25 +6,6 @@ const { PassThrough } = require('stream');
 const requestType = require('../apiConfig');
 const { generateToken, parseToken } = require('../utils/token_utils');
 
-const sendMessage = async (stream) => {
-  const data = [
-    '  ',
-    'Hello',
-    ' ',
-    'Reai',
-    ' ',
-    '！',
-  ].map(c => c.split("")).flat(10);
-
-  for (const value of data) {
-    stream.write(`${value}`); // 写入数据(推送数据)
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
-
-  // 结束流
-  stream.end();
-};
-
 module.exports = {
   // 模板下载
   async templateDownload(ctx) {
@@ -148,6 +129,7 @@ module.exports = {
     ctx.body = JSON.parse(ret);
     
   },
+  // 流式输出
   streamProcess(ctx) {
     ctx.set({
       'Connection': 'keep-alive',
@@ -160,7 +142,15 @@ module.exports = {
     ctx.body = stream;
     ctx.status = 200;
 
-    sendMessage(stream)
+    const data = ['  ', 'Hello', ' ', 'Reai', ' ','！',].map(c => c.split("")).flat(10);
+
+    const timer = setInterval(() => {
+      stream.write(data.shift());
+      if(data.length === 0) {
+        clearInterval(timer); 
+        stream.end();
+      }
+    }, 400)
 
   },
 
